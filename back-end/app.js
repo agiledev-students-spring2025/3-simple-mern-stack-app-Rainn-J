@@ -11,6 +11,7 @@ app.use(cors()) // allow cross-origin resource sharing
 // use express's builtin body-parser middleware to parse any data included in a request
 app.use(express.json()) // decode JSON-formatted incoming POST data
 app.use(express.urlencoded({ extended: true })) // decode url-encoded incoming POST data
+app.use(express.static('public'))
 
 // connect to database
 mongoose
@@ -21,6 +22,16 @@ mongoose
 // load the dataabase models we want to deal with
 const { Message } = require('./models/Message')
 const { User } = require('./models/User')
+
+app.get('/about',(req, res) => {
+  res.json({
+    name: "Rain Jia",
+    about1: "Hi! My name is Rain. I'm an international student from China. For any Chinese students who are reading this, I'm from Suzhou!",
+    about2:"I'm a junior and major in Econ+CS.",
+    about3:"Instead of a picture of myself, I put a picture of my cat when he was young.",
+    image_url: "/cat.jpg"
+  });
+});
 
 // a route to handle fetching all messages
 app.get('/messages', async (req, res) => {
@@ -77,6 +88,7 @@ app.post('/messages/save', async (req, res) => {
     })
   }
 })
+
 
 // export the express app we created to make it available to other modules
 module.exports = app // CommonJS export style!
